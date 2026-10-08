@@ -61,6 +61,18 @@ print(SessionContext().sql(expanded, options=options).to_pydict())
 
 `expand_sql(sql: str) -> str` returns SQL text; it does not execute it. Invalid declarations or unsupported calls raise `ValueError`.
 
+## Multiple functions
+
+Use one `WITH`, separate declarations with commas, and repeat `FUNCTION` for each definition. Local functions can call other local functions:
+
+```sql
+WITH FUNCTION twice(x) AS (x * 2),
+     FUNCTION twice_plus_one(x) AS (twice(x) + 1)
+SELECT twice(3) AS a, twice_plus_one(3) AS b
+```
+
+After expansion and execution, `.to_pylist()[0]` returns `{'a': 6, 'b': 7}`. Recursive calls, including functions calling each other in a cycle, are rejected during expansion.
+
 ## More than arithmetic
 
 Functions can return structs, for example to keep a numeric sort value beside display text:
