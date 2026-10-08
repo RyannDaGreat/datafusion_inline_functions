@@ -1,0 +1,30 @@
+[build-system]
+requires = ["maturin>=1.9,<2"]
+build-backend = "maturin"
+
+[project]
+name = "datafusion_inline_functions"
+version = "0.1.0"
+description = "Rust-backed query-local functions for Apache DataFusion SQL"
+requires-python = ">=3.11"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+
+[project.urls]
+Repository = "https://github.com/RyannDaGreat/datafusion_inline_functions"
+Issues = "https://github.com/RyannDaGreat/datafusion_inline_functions/issues"
+
+[dependency-groups]
+dev = ["maturin>=1.9,<2", "pytest>=8", "datafusion>=54,<55", "twine>=6", "fire>=0.7"]
+
+[tool.maturin]
+python-source = "python"
+module-name = "datafusion_inline_functions._native"
+
+[tool.pytest.ini_options]
+testpaths = ["tests", "python"]
+addopts = "--doctest-modules -ra --basetemp=.scratchpad/pytest"
+
+[tool.uv]
+cache-keys = [{file = "pyproject.toml"}, {file = "Cargo.toml"}, {file = "Cargo.lock"}, {file = "src/**/*.rs"}]

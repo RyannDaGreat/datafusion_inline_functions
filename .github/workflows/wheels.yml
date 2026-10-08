@@ -1,0 +1,71 @@
+name: wheels
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  wheel:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {runner: macos-14, target: aarch64-apple-darwin}
+          - {runner: ubuntu-24.04, target: x86_64-unknown-linux-gnu}
+          - {runner: ubuntu-24.04-arm, target: aarch64-unknown-linux-gnu}
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: PyO3/maturin-action@v1
+        with:
+          target: ${{ matrix.target }}
+          args: --release --locked --out dist
+          manylinux: auto
+          sccache: true
+      - uses: astral-sh/setup-uv@v6
+      - name: Test installed wheel on Python 3.11 and 3.14
+        shell: bash
+        run: |
+          set -euo pipefail
+          for python in 3.11 3.14; do
+            uv venv --clear --python "$python" .scratchpad/wheel-test
+            uv pip install --python .scratchpad/wheel-test/bin/python dist/*.whl pytest fire 'datafusion>=54,<55'
+            for datafusion in 54.0.0 54.1.0; do
+              uv pip install --python .scratchpad/wheel-test/bin/python "datafusion==$datafusion"
+              .scratchpad/wheel-test/bin/python -m pytest -v tests --pyargs datafusion_inline_functions
+            done
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist-${{ matrix.target }}
+          path: dist
+
+  sdist:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: astral-sh/setup-uv@v6
+      - name: Rust checks
+        run: |
+          cargo fmt --check
+          cargo test --no-default-features
+          cargo clippy --no-default-features -- -D warnings
+      - uses: PyO3/maturin-action@v1
+        with:
+          command: sdist
+          args: --out dist
+      - name: Install and test from sdist
+        run: |
+          uv venv --python 3.11 .scratchpad/sdist-test
+          uv pip install --python .scratchpad/sdist-test/bin/python dist/*.tar.gz pytest fire 'datafusion>=54,<55'
+          .scratchpad/sdist-test/bin/python -m pytest -v tests --pyargs datafusion_inline_functions
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist-sdist
+          path: dist
