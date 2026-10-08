@@ -90,7 +90,7 @@ After expansion and execution, `.to_pylist()[0]` returns this row:
 {'ready': {'sort': 12, 'text': '12'}, 'done': {'sort': 3, 'text': '3'}}
 ```
 
-You can also use `CASE`, nested calls to other local functions, typed parameters/results, ordinary `WITH` queries, and scalar `SELECT` subqueries. See [syntax and binding rules](docs/usage.md) for examples. Definitions belong to one query; this package does not provide a global function catalog or resolve reusable named queries for your application.
+You can also use `CASE`, nested calls to other local functions, typed parameters/results, ordinary `WITH` queries, and scalar `SELECT` subqueries. See [syntax and binding rules](https://github.com/RyannDaGreat/datafusion_inline_functions/blob/main/docs/usage.md) for examples. Definitions belong to one query; this package does not provide a global function catalog or resolve reusable named queries for your application.
 
 ## Boundaries to know
 
@@ -101,4 +101,4 @@ You can also use `CASE`, nested calls to other local functions, typed parameters
 
 The supported engine target is DataFusion 54.x, not arbitrary SQL dialects. The implementation uses Apache's `sqlparser` Rust crate; the core expander has no SQLGlot or SQLMesh dependency. An optional `editors` extra provides a SQLGlot adapter for original source positions.
 
-For application integration, see [reusable queries and dynamic SQL](docs/usage.md#reusable-queries-and-dynamic-sql). For building, testing, and the `pypi` upload command, see [development and publishing](docs/development.md).
+For application integration, see [reusable queries and dynamic SQL](https://github.com/RyannDaGreat/datafusion_inline_functions/blob/main/docs/usage.md#reusable-queries-and-dynamic-sql). For building, testing, and the `pypi` upload command, see [development and publishing](https://github.com/RyannDaGreat/datafusion_inline_functions/blob/main/docs/development.md).
