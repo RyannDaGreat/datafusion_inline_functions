@@ -25,13 +25,13 @@ The result is still one SQL query. There is no database function registration, e
 
 ## Install and try it
 
-Requires Python 3.11+. Until a PyPI release is published, build from this repository with [Rust](https://rustup.rs/) installed:
+Requires Python 3.11+. Install the package and DataFusion:
 
 ```sh
-git clone https://github.com/RyannDaGreat/datafusion_inline_functions.git
-cd datafusion_inline_functions
-python -m pip install . 'datafusion>=54,<55'
+python -m pip install datafusion_inline_functions 'datafusion>=54,<55'
 ```
+
+Wheels are provided for macOS Apple Silicon and Linux x86-64/ARM64. Other platforms build from source and require [Rust](https://rustup.rs/).
 
 The distribution name and import name are both `datafusion_inline_functions`. DataFusion is installed separately to execute queries; the expander itself only transforms strings.
 
@@ -99,6 +99,6 @@ You can also use `CASE`, nested calls to other local functions, typed parameters
 - Subquery bodies require qualified column references and reject alias collisions. Unsupported binding forms fail explicitly; table-returning functions and procedural statements are not supported.
 - Expansion is **not a read-only SQL validator**. Keep DataFusion's `SQLOptions` checks when read-only execution matters.
 
-The supported engine target is DataFusion 54.x, not arbitrary SQL dialects. The implementation uses Apache's `sqlparser` Rust crate; it has no SQLGlot or SQLMesh dependency.
+The supported engine target is DataFusion 54.x, not arbitrary SQL dialects. The implementation uses Apache's `sqlparser` Rust crate; the core expander has no SQLGlot or SQLMesh dependency. An optional `editors` extra provides a SQLGlot adapter for original source positions.
 
 For application integration, see [reusable queries and dynamic SQL](docs/usage.md#reusable-queries-and-dynamic-sql). For building, testing, and the `pypi` upload command, see [development and publishing](docs/development.md).
