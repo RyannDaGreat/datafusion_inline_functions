@@ -15,5 +15,5 @@ cargo clippy --no-default-features -- -D warnings
 .venv/bin/maturin sdist --out dist
 .venv/bin/python -m twine check --strict dist/*
 uv venv --clear .scratchpad/wheel-test
-uv pip install --python .scratchpad/wheel-test/bin/python dist/*.whl 'datafusion>=54,<55' pytest fire
+uv pip install --python .scratchpad/wheel-test/bin/python dist/*.whl 'sqlglot==30.18.0' 'datafusion>=54,<55' pytest fire
 .scratchpad/wheel-test/bin/python -m pytest -v tests --pyargs datafusion_inline_functions

@@ -11,12 +11,15 @@ readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]
 
+[project.optional-dependencies]
+editors = ["sqlglot==30.18.0"]
+
 [project.urls]
 Repository = "https://github.com/RyannDaGreat/datafusion_inline_functions"
 Issues = "https://github.com/RyannDaGreat/datafusion_inline_functions/issues"
 
 [dependency-groups]
-dev = ["maturin>=1.9,<2", "pytest>=8", "datafusion>=54,<55", "twine>=6", "fire>=0.7"]
+dev = ["maturin>=1.9,<2", "pytest>=8", "datafusion>=54,<55", "twine>=6", "fire>=0.7", "sqlglot==30.18.0"]
 
 [tool.maturin]
 python-source = "python"

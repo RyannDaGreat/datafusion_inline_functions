@@ -317,16 +317,24 @@ name = "datafusion-inline-functions"
 version = "0.1.0"
 source = { editable = "." }
 
+[package.optional-dependencies]
+editors = [
+    { name = "sqlglot" },
+]
+
 [package.dev-dependencies]
 dev = [
     { name = "datafusion" },
     { name = "fire" },
     { name = "maturin" },
     { name = "pytest" },
+    { name = "sqlglot" },
     { name = "twine" },
 ]
 
 [package.metadata]
+requires-dist = [{ name = "sqlglot", marker = "extra == 'editors'", specifier = "==30.18.0" }]
+provides-extras = ["editors"]
 
 [package.metadata.requires-dev]
 dev = [
@@ -334,6 +342,7 @@ dev = [
     { name = "fire", specifier = ">=0.7" },
     { name = "maturin", specifier = ">=1.9,<2" },
     { name = "pytest", specifier = ">=8" },
+    { name = "sqlglot", specifier = "==30.18.0" },
     { name = "twine", specifier = ">=6" },
 ]
 
@@ -726,6 +735,15 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/1c/03/e834bcd866f2f8a49a85eaff47340affa3bfa391ee9912a952a1faa68c7b/secretstorage-3.5.0.tar.gz", hash = "sha256:f04b8e4689cbce351744d5537bf6b1329c6fc68f91fa666f60a380edddcd11be", size = 19884, upload-time = "2025-11-23T19:02:53.191Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/b7/46/f5af3402b579fd5e11573ce652019a67074317e18c1935cc0b4ba9b35552/secretstorage-3.5.0-py3-none-any.whl", hash = "sha256:0ce65888c0725fcb2c5bc0fdb8e5438eece02c523557ea40ce0703c266248137", size = 15554, upload-time = "2025-11-23T19:02:51.545Z" },
+]
+
+[[package]]
+name = "sqlglot"
+version = "30.18.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/e4/73/5b5ce3e23b3ded3ea1986c2c2991217460d5fd5161b3e00a8425f5dcb8a3/sqlglot-30.18.0.tar.gz", hash = "sha256:e57e1b205e341979d1df5b1212c1435c598a0437e4619e3f428b15d5bc3a5cc6", size = 6018496, upload-time = "2026-09-03T13:12:58.206Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/08/9f/3dd2ec8dd84a33e0092f1c815267bc055073f9e833b93e389c59c10f62cc/sqlglot-30.18.0-py3-none-any.whl", hash = "sha256:ee0f9a9f3e2193e763c326e52dfb377b96fdb4292f6305c3ff2d9a220e71c601", size = 748788, upload-time = "2026-09-03T13:12:56.467Z" },
 ]
 
 [[package]]

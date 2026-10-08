@@ -35,7 +35,7 @@ jobs:
           set -euo pipefail
           for python in 3.11 3.14; do
             uv venv --clear --python "$python" .scratchpad/wheel-test
-            uv pip install --python .scratchpad/wheel-test/bin/python dist/*.whl pytest fire 'datafusion>=54,<55'
+            uv pip install --python .scratchpad/wheel-test/bin/python dist/*.whl 'sqlglot==30.18.0' pytest fire 'datafusion>=54,<55'
             for datafusion in 54.0.0 54.1.0; do
               uv pip install --python .scratchpad/wheel-test/bin/python "datafusion==$datafusion"
               .scratchpad/wheel-test/bin/python -m pytest -v tests --pyargs datafusion_inline_functions
@@ -63,7 +63,7 @@ jobs:
       - name: Install and test from sdist
         run: |
           uv venv --python 3.11 .scratchpad/sdist-test
-          uv pip install --python .scratchpad/sdist-test/bin/python dist/*.tar.gz pytest fire 'datafusion>=54,<55'
+          uv pip install --python .scratchpad/sdist-test/bin/python dist/*.tar.gz 'sqlglot==30.18.0' pytest fire 'datafusion>=54,<55'
           .scratchpad/sdist-test/bin/python -m pytest -v tests --pyargs datafusion_inline_functions
       - uses: actions/upload-artifact@v4
         with:
